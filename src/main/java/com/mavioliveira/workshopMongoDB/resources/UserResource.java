@@ -6,12 +6,11 @@ import com.mavioliveira.workshopMongoDB.dto.UserDTO;
 import com.mavioliveira.workshopMongoDB.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,6 +37,16 @@ public class UserResource {
         List<UserDTO> listDTO = list.stream().map(x -> new UserDTO(x)).collect(Collectors.toList()); // converte cada objeto para dto
         return ResponseEntity.ok().body(listDTO); // corpo da resposta é a lista
     }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET) // imforma que o method é endpoint rest, obtem informações por isso GET
+    public ResponseEntity<UserDTO> findById(@PathVariable String  id){ // pega o id com referencia /{id}
+      User obj = service.findById(id);
+
+      return ResponseEntity.ok().body(new UserDTO(obj));
+
+    }
+
+
 
 
 }
