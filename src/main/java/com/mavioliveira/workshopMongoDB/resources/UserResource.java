@@ -6,11 +6,10 @@ import com.mavioliveira.workshopMongoDB.dto.UserDTO;
 import com.mavioliveira.workshopMongoDB.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,6 +42,18 @@ public class UserResource {
       User obj = service.findById(id);
 
       return ResponseEntity.ok().body(new UserDTO(obj));
+    }
+
+    @RequestMapping(method = RequestMethod.POST) // agora insere ent muda pra post
+    public ResponseEntity<Void> insert (@RequestBody UserDTO objDTO){
+        User obj = service.fromDTO(objDTO); // converte dto para user
+        obj = service.insert(obj);
+
+        // retornar resposta vazia com o cabeçalho com a URL do novo recurso criado
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri(); // pega o endereço
+
+        return ResponseEntity.created(uri).build(); // retorna o codigo 201 de criação de recurso, passando o caminho como argumento
+
 
     }
 

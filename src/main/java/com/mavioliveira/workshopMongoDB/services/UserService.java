@@ -2,6 +2,7 @@ package com.mavioliveira.workshopMongoDB.services;
 
 
 import com.mavioliveira.workshopMongoDB.domain.User;
+import com.mavioliveira.workshopMongoDB.dto.UserDTO;
 import com.mavioliveira.workshopMongoDB.repository.UserRepository;
 import com.mavioliveira.workshopMongoDB.services.exception.ObjectNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +28,13 @@ public class UserService {
         Optional<User> user = repository.findById(id);
 
          return user.orElseThrow(() -> new ObjectNotFound("User ID not found: " + id)); // retornar usuario caso haja, senão lança exceção
+    }
+
+    public User insert(User obj){
+        return repository.insert(obj); // insere usuario
+    }
+
+    public User fromDTO (UserDTO objDTO){ // instanciar com base no DTO
+        return new User(objDTO.getId(), objDTO.getName(), objDTO.getEmail());
     }
 }
