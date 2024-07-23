@@ -63,5 +63,15 @@ public class UserResource {
         return ResponseEntity.noContent().build(); // retorna o codigo de deleção
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT) // agora atualiza ent muda pra post
+    public ResponseEntity<Void> update (@RequestBody UserDTO objDTO, @PathVariable String  id){
+        User obj = service.fromDTO(objDTO); // converte dto para user
+        obj.setId(id); // garante que o id seja o mesmo
+        obj = service.update(obj);
+
+        return ResponseEntity.noContent().build(); // retorna o codigo de não contido
+
+    }
+
 
 }
