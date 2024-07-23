@@ -54,10 +54,14 @@ public class UserResource {
 
         return ResponseEntity.created(uri).build(); // retorna o codigo 201 de criação de recurso, passando o caminho como argumento
 
-
     }
 
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE) // imforma que o method é endpoint rest, obtem informações por isso GET
+    public ResponseEntity<UserDTO> delete(@PathVariable String  id){ // pega o id com referencia /{id}
+        service.delete(id); // deleta
+        return ResponseEntity.noContent().build(); // retorna o codigo de deleção
+    }
 
 
 }

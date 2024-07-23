@@ -34,6 +34,10 @@ public class UserService {
         return repository.insert(obj); // insere usuario
     }
 
+    public void delete(String id){ // deleta o usuario com base no id
+        repository.deleteById(id);
+    }
+
     public User fromDTO (UserDTO objDTO){ // instanciar com base no DTO
         return new User(objDTO.getId(), objDTO.getName(), objDTO.getEmail());
     }
