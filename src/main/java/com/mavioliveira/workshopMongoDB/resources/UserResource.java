@@ -2,6 +2,8 @@ package com.mavioliveira.workshopMongoDB.resources;
 
 
 import com.mavioliveira.workshopMongoDB.domain.User;
+import com.mavioliveira.workshopMongoDB.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,15 +17,22 @@ import java.util.List;
 @RequestMapping(value = "/users") // caminho do endpoint
 public class UserResource {
 
+
+    /* Arquitetura de camadas:
+    1. O controlador Rest(resource) acessa o serviço
+    2. O Serviço acessa o repositorio com os metodos do Mongo DB
+     */
+
+    // injeta um serviço
+    @Autowired
+    private UserService service;
+
+
     //methods:
 
     @RequestMapping(method = RequestMethod.GET) // imforma que o method é endpoint rest, obtem informações por isso GET
     public ResponseEntity<List<User>> findAll(){ // pega todos os users
-        User maria = new User("1", "Maria Brown", "maria@gmail.com");
-        User alex = new User("2", "Alex Green", "alex@gmail.com");
-
-        List<User> list = new ArrayList<>();
-        list.addAll(Arrays.asList(maria,alex));
+        List<User> list = service.findAll(); // coloca todos os usuarios na lista
 
         return ResponseEntity.ok().body(list); // corpo da resposta é a lista
     }
