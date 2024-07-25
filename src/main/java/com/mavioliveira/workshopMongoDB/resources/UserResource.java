@@ -1,6 +1,7 @@
 package com.mavioliveira.workshopMongoDB.resources;
 
 
+import com.mavioliveira.workshopMongoDB.domain.Post;
 import com.mavioliveira.workshopMongoDB.domain.User;
 import com.mavioliveira.workshopMongoDB.dto.UserDTO;
 import com.mavioliveira.workshopMongoDB.services.UserService;
@@ -71,6 +72,13 @@ public class UserResource {
 
         return ResponseEntity.noContent().build(); // retorna o codigo de não contido
 
+    }
+
+    @RequestMapping(value = "/{id}/posts", method = RequestMethod.GET) // imforma que o method é endpoint rest, obtem informações por isso GET, endpoint de caregamento de posts
+    public ResponseEntity<List<Post>>findPosts(@PathVariable String  id){ // pega o id com referencia /{id}
+        User obj = service.findById(id);
+
+        return ResponseEntity.ok().body(obj.getPosts());
     }
 
 
